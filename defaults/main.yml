@@ -1,0 +1,8 @@
+---
+consul_user: consul
+consul_group: consul
+
+consul_install_dir: /opt/consul
+
+consul_version: 1.8.0
+consul_download_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"

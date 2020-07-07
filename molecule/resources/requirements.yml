@@ -1,0 +1,7 @@
+---
+- src: https://github.com/nycrecords/ansible-role-yum_config_manager
+  version: master
+  name: nycrecords.yum_config_manager
+- src: https://github.com/nycrecords/ansible-role-rhsm
+  version: master
+  name: nycrecords.rhsm

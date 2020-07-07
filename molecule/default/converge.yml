@@ -14,7 +14,6 @@
     rhsm_server_proxy_password: "{{ lookup('env', 'http_proxy_password') }}"
     rhsm_consumer_name: "nycrecords_{{ '%Y%m%d_%H%M%s' | strftime(ansible_date_time.epoch) }}"
 
-    # Role: consule
-
   roles:
     - role: nycrecords.rhsm
+    - role: ansible-role-consul
