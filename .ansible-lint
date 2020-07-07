@@ -1,0 +1,11 @@
+exclude_paths:
+ - ./.travis.yml
+ - ./molecule/
+ - ./ansible/roles/nycrecords.*
+rulesdir:
+  - ~/ansible-lint-rules/rules/
+skip_list:
+  - '403'
+  - '204'
+use_default_rules: true
+verbosity: 1

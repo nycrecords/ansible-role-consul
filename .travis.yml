@@ -1,0 +1,23 @@
+---
+language: python
+python:
+  - 3.7
+env:
+  global:
+    - MOLECULE_DEBUG: "true"
+    - ROLE_NAME: consul
+    - EC2_REGION: us-east-1
+install:
+  - pip install pipenv
+  - pipenv install
+  - aws configure set aws_access_key_id $AWS_ACCESS_KEY
+  - aws configure set aws_secret_access_key $AWS_SECRET_KEY
+  - aws configure set default.region $EC2_REGION
+  - aws configure list
+script:
+  - molecule create --scenario-name aws
+  - molecule converge --scenario-name aws
+  - molecule verify --scenario-name aws
+  - molecule destroy --scenario-name aws
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
