@@ -1,0 +1,22 @@
+---
+- name: Ensure Consul group exists
+  group:
+    name: "{{ consul_group }}"
+    state: present
+
+- name: Ensure Consul user exists
+  user:
+    name: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    state: present
+
+- name: Ensure Consul syslog group exists
+  group:
+    name: "{{ syslog_group }}"
+    state: present
+
+- name: Ensure Consul syslog user exists
+  user:
+    name: "{{ syslog_user }}"
+    group: "{{ syslog_group }}"
+    state: present

@@ -1,8 +1,21 @@
 ---
+## Install - Users
 consul_user: consul
 consul_group: consul
 
-consul_install_dir: /opt/consul
+## Install - Dirs
+consul_config_path: "/etc/consul"
+consul_configd_path: "{{ consul_config_path }}/consul.d"
+consul_data_path: "/var/consul"
+consul_run_path: "/run/consul"
+consul_bin_path: "/usr/local/bin"
 
-consul_version: 1.8.0
-consul_download_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+## Install - Logging
+consul_syslog_enable: false
+consul_configure_syslogd: false
+
+# Syslog
+syslog_user: root
+syslog_group: root
+consul_log_path: "/var/log/consul"
+consul_log_file: "consul.log"

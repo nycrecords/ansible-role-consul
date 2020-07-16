@@ -1,19 +1,20 @@
 [[source]]
 name = "pypi"
-url = "https://pypi.org/simple"
+url = "https://pypi.org/simple/"
 verify_ssl = true
 
-[dev-packages]
-flake8-black = "*"
-flake8 = "*"
-black = "*"
+[requires]
+python_version = "3.7"
 
 [packages]
-molecule = {extras = ["ec2", "vagrant"],version = "<=2.22"}
-awscli = "*"
+ansible = "==2.*,>=2.9.10"
+awscli = "==1.*,>=1.18.98"
+molecule = {version = "<=2.22", extras = ["ec2", "vagrant"]}
 
-[requires]
-python_version = "3.8"
+[dev-packages]
+black = "==19.*,>=19.10.0.b0"
+flake8 = "==3.*,>=3.8.3"
+flake8-black = "==0.*,>=0.2.0"
 
 [pipenv]
 allow_prereleases = true

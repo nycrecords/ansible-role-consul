@@ -1,55 +1,10 @@
 ---
-- include_tasks: setup-RedHat.yml
-  when: ansible_os_family == 'RedHat'
+- name: Install Consul
+  include_tasks: install.yml
+  tags:
+    - install
 
-- name: Ensure Consul group exists
-  group:
-    name: "{{ consul_group }}"
-    state: present
-
-- name: Ensure Consul user exists
-  user:
-    name: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-    state: present
-
-- name: Fetch and extract Consul binary
-  unarchive:
-    src: "{{ consul_download_url }}"
-    dest: /tmp
-    remote_src: yes
-
-- name: Create Consul install directory
-  file:
-    path: "{{ consul_install_dir }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-
-- name: Copy Consul binary to install directory
-  copy:
-    src: /tmp/consul
-    dest: "{{ consul_install_dir }}/consul"
-    remote_src: yes
-
-- name: Change ownership of Consul binary
-  file:
-    path: "{{ consul_install_dir }}/consul"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-    mode: a+x
-
-- name: Symlink Consul binary to /usr/local/bin
-  file:
-    src: "{{ consul_install_dir }}/consul"
-    dest: /usr/local/bin/consul
-    state: link
-
-
-- name: Remove Consul downloads
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - /tmp/consul.zip
-    - /tmp/consul
+- name: Configure Consul
+  include_tasks: configure.yml
+  tags:
+    - configure

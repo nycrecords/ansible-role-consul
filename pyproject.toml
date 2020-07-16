@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "root"
+version = "0.0.0"
+description = "An Ansible role to install and configure Consul"
+authors = ["Joel Castillo <jocastillo@records.nyc.gov>"]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+molecule = {version = "<=2.22", extras = ["ec2", "vagrant"]}
+awscli = "^1.18.98"
+ansible = "^2.9.10"
+
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+flake8 = "^3.8.3"
+flake8-black = "^0.2.0"

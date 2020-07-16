@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   role_name: consul
-  author: "NYC Records"
+  author: "NYC Records App Dev Team <appdev@records.nyc.gov"
   description: "HashiCorp Consul"
   company: "City of New York, Department of Records and Information Services"
   license: "license (Apache)"
