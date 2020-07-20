@@ -1,7 +1,8 @@
 ---
 - include_tasks: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
-
+  tags:
+    - install
 
 - name: Setup Consul users and groups
   include_tasks: users.yml

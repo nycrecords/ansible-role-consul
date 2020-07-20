@@ -17,12 +17,13 @@
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
+  run_once: true
   tags:
     - configure
 
 # 2. Setup ca / Use Existing ca
 - name: Generate consul ca
-  shell: 
+  shell:
     cmd: "{{ consul_temp_build_dir.path }}/consul tls ca create"
     chdir: "files"
   register: consul_tls_ca_output
@@ -30,6 +31,7 @@
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
+  run_once: true
   tags:
     - configure
 
@@ -40,6 +42,7 @@
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
+  run_once: true
   tags:
     - configure
 
@@ -59,7 +62,7 @@
   shell:
     cmd: "{{ consul_temp_build_dir.path }}/consul tls cert create -server -dc {{ consul_dc_name }} -ca ../../{{ ansible_ca_cert }} -key ../../{{ ansible_ca_key }}"
     chdir: "files/{{ ansible_hostname }}"
-  loop: "{{ groups['consul_servers'] }}"  
+  loop: "{{ groups['consul_servers'] }}"
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
@@ -74,13 +77,12 @@
     group: "{{ consul_group }}"
     mode: 0400
   with_items:
-  - "files/{{ ansible_hostname}}/{{ consul_dc_name }}-server-consul-0.pem"
-  - "files/{{ ansible_hostname}}/{{ consul_dc_name }}-server-consul-0-key.pem"
+  - "files/{{ ansible_hostname}}/"
   - "consul-agent-ca.pem"
   tags:
     - configure
 
 
-  
 
-# 3. 
+
+# 3.

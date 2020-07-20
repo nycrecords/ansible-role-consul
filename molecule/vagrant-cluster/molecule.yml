@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/resources/requirements.yml
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+platforms:
+  - name: consul-1
+    box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - consul_servers
+  - name: consul-2
+    box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - consul_servers
+  - name: consul-3
+    box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - consul_servers
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  playbooks:
+    converge: converge.yml
+    cleanup: cleanup.yml
+verifier:
+  name: testinfra
+  directory: ../resources/tests/
+  lint:
+    name: flake8
