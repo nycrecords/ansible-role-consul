@@ -21,6 +21,8 @@
       owner: "{{ consul_user }}"
       group: "{{ consul_group }}"
       mode: 0750
+  tags:
+    - install
 
 - name: Create log directory
   file:
@@ -31,6 +33,8 @@
   when:
     - not consul_syslog_enable | bool
     - not consul_configure_syslogd | bool
+  tags:
+    - install
 
 - name: Create log directory
   file:
@@ -43,6 +47,8 @@
   when:
     - consul_syslog_enable | bool
     - consul_configure_syslogd | bool
+  tags:
+    - install
 
 - name: Verify binary path
   file:
@@ -50,3 +56,5 @@
     state: directory
     owner: root
     mode: 0755
+  tags:
+    - install

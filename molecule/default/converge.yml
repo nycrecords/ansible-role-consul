@@ -18,4 +18,7 @@
     ansible_host_os_type: "darwin"
 
   roles:
+    - role: nycrecords.rhsm
+      tags:
+        - always
     - role: ansible-role-consul

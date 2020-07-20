@@ -3,11 +3,17 @@
   yum:
     name: dnsmasq
     state: present
+  tags:
+    - install
+    - dnsmasq
 
 - name: Enable dnsmasq service
   service:
     name: dnsmasq
     enabled: true
+  tags:
+    - install
+    - dnsmasq
 
 - name: Creat dnsmasq configuration directory
   file:
@@ -17,8 +23,14 @@
     group: root
     mode: 0644
   notify: restart dnsmasq
+  tags:
+    - install
+    - dnsmasq
 
 - name: Enable dnsmasq service
   service:
     name: dnsmasq
     enabled: true
+  tags:
+    - install
+    - dnsmasq

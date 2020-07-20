@@ -3,3 +3,5 @@
   yum:
     name: ['curl', 'unzip', 'jq']
     state: present
+  tags:
+    - install
