@@ -14,14 +14,7 @@
     dest: /tmp
     remote_src: yes
 
-- name: Create Consul install directory
-  file:
-    path: "{{ consul_install_dir }}"
-    state: directory
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-
-- name: Copy Consul binary to install directory
+- name: Copy Consul binary to bin directory
   copy:
     src: /tmp/consul
     dest: "{{ consul_bin_path }}/consul"
@@ -32,7 +25,7 @@
     path: "{{ consul_bin_path }}/consul"
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
-    mode: 0755
+    mode: u=rwx,g=rx,o=rx
 
 - name: Remove Consul downloads
   file:
@@ -41,3 +34,9 @@
   with_items:
     - /tmp/consul.zip
     - /tmp/consul
+
+- name: Install dnsmasq
+  include_tasks: install_dnsmasq.yml
+  tags:
+    - install
+    - dnsmasq

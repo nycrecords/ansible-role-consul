@@ -1,0 +1,86 @@
+---
+# 0. Install consul on Ansible hostname
+- name: Install consul on Ansible Host (e.g. localhost)
+  include_tasks: ansible_host_install.yml
+  tags:
+    - install
+    - configure
+  when:
+    - not ansible_ca_cert | bool
+    - not ansible_server_certs | bool
+
+# 1. Setup Gossip Encryption
+- name: Create Gossip Encryption Key
+  shell:
+    cmd: "{{ consul_temp_build_dir.path }}/consul keygen"
+  register: consul_gossip_encryption_key
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
+
+# 2. Setup ca / Use Existing ca
+- name: Generate consul ca
+  shell: 
+    cmd: "{{ consul_temp_build_dir.path }}/consul tls ca create"
+    chdir: "files"
+  register: consul_tls_ca_output
+  ignore_errors: True
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
+
+- name: Set name of consul ca key and cert
+  set_fact:
+    ansible_ca_cert: "files/consul-agent-ca.pem"
+    ansible_ca_key: "files/consul-agent-ca-key.pem"
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
+
+# Create Agent Certs
+- name: Create directory for consul Agent
+  file:
+    path: "files/{{ ansible_hostname }}"
+    state: directory
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
+
+
+- name: Generate consul Agent Certs
+  shell:
+    cmd: "{{ consul_temp_build_dir.path }}/consul tls cert create -server -dc {{ consul_dc_name }} -ca ../../{{ ansible_ca_cert }} -key ../../{{ ansible_ca_key }}"
+    chdir: "files/{{ ansible_hostname }}"
+  loop: "{{ groups['consul_servers'] }}"  
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
+
+- name: Copy consul Agent Certs for Server
+  copy:
+    src: "{{ item }}"
+    dest: "{{ consul_configd_path }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    mode: 0400
+  with_items:
+  - "files/{{ ansible_hostname}}/{{ consul_dc_name }}-server-consul-0.pem"
+  - "files/{{ ansible_hostname}}/{{ consul_dc_name }}-server-consul-0-key.pem"
+  - "consul-agent-ca.pem"
+  tags:
+    - configure
+
+
+  
+
+# 3. 

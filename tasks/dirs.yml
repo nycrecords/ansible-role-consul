@@ -12,6 +12,7 @@
       - "{{ consul_config_path }}"
       - "{{ consul_configd_path }}"
       - "{{ consul_data_path }}"
+      - "{{ consul_install_path }}"
 
   - name: Run directory
     file:

@@ -3,19 +3,48 @@
 consul_user: consul
 consul_group: consul
 
+consul_servers:
+  server_one
+
+
 ## Install - Dirs
 consul_config_path: "/etc/consul"
 consul_configd_path: "{{ consul_config_path }}/consul.d"
 consul_data_path: "/var/consul"
 consul_run_path: "/run/consul"
+consul_install_path: "/opt/consul"
 consul_bin_path: "/usr/local/bin"
 
 ## Install - Logging
 consul_syslog_enable: false
 consul_configure_syslogd: false
 
+
+## Install - Version
+consul_version: "1.8.0"
+consul_os: "{{ ansible_system | lower }}"
+consul_architecture_map:
+  # this first entry seems redundant
+  # (but it's required for reasons)
+  amd64: amd64
+  x86_64: amd64
+  # todo: arm32 / armelv5
+  armv6l: armhfv6
+  armv7l: armhfv6
+  aarch64: arm64
+  32-bit: "386"
+  64-bit: amd64
+consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
+consul_download_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
+
 # Syslog
 syslog_user: root
 syslog_group: root
 consul_log_path: "/var/log/consul"
 consul_log_file: "consul.log"
+
+## TLS
+ansible_ca_cert: 
+ansible_ca_key: 
+ansible_server_certs: []
+consul_dc_name: dc1

@@ -1,0 +1,11 @@
+---
+- name: Create Dnsmasq configuration
+  template:
+    src: dnsmasq-10-consul.j2
+    dest: /etc/dnsmasq.d/10-consul
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart dnsmasq
+  when: ansible_os_family in ["Debian", "RedHat"]
+  tags: dnsmasq

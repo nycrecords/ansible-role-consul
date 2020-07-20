@@ -17,3 +17,8 @@
     group: root
     mode: 0644
   notify: restart dnsmasq
+
+- name: Enable dnsmasq service
+  service:
+    name: dnsmasq
+    enabled: true

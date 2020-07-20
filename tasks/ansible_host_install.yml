@@ -1,0 +1,20 @@
+---
+- name: Install Consul on Ansible Host
+  block:
+  - name: Create temporary build directory
+    tempfile:
+      state: directory
+      prefix: ansible-role-consul.
+    register: consul_temp_build_dir
+
+  - name: Fetch and extract Consul binary
+    unarchive:
+      src: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_host_os_type }}_amd64.zip"
+      dest: "{{ consul_temp_build_dir.path }}"
+      remote_src: yes
+
+  tags:
+    - configure
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
