@@ -3,10 +3,6 @@
 consul_user: consul
 consul_group: consul
 
-consul_servers:
-  server_one
-
-
 ## Install - Dirs
 consul_config_path: "/etc/consul"
 consul_configd_path: "{{ consul_config_path }}/consul.d"
@@ -18,7 +14,6 @@ consul_bin_path: "/usr/local/bin"
 ## Install - Logging
 consul_syslog_enable: false
 consul_configure_syslogd: false
-
 
 ## Install - Version
 consul_version: "1.8.0"
@@ -37,14 +32,19 @@ consul_architecture_map:
 consul_architecture: "{{ consul_architecture_map[ansible_architecture] }}"
 consul_download_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"
 
-# Syslog
+## Syslog
 syslog_user: root
 syslog_group: root
 consul_log_path: "/var/log/consul"
 consul_log_file: "consul.log"
 
 ## TLS
-ansible_ca_cert: 
-ansible_ca_key: 
+ansible_ca_cert:
+ansible_ca_key:
 ansible_server_certs: []
 consul_dc_name: dc1
+
+## Configure
+consul_bootstrap_expect: 3
+consul_client_address: "0.0.0.0"
+consul_retry_join_hosts: "{{ groups['consul_servers'] | join(',') }}"

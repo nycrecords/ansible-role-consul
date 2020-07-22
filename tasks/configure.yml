@@ -57,12 +57,10 @@
   tags:
     - configure
 
-
 - name: Generate consul Agent Certs
   shell:
     cmd: "{{ consul_temp_build_dir.path }}/consul tls cert create -server -dc {{ consul_dc_name }} -ca ../../{{ ansible_ca_cert }} -key ../../{{ ansible_ca_key }}"
     chdir: "files/{{ ansible_hostname }}"
-  loop: "{{ groups['consul_servers'] }}"
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
@@ -82,7 +80,41 @@
   tags:
     - configure
 
+# 3. Create consul client configuration
+- name: Create consul client configuration
+  template:
+    src: "consul.hcl.j2"
+    dest: "{{ consul_configd_path }}/consul.hcl"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    mode: 0640
+  notify:
+    - restart consul
+  tags:
+    - configure
 
+# 4. Create consul server configuration
+- name: Create consul server configuration
+  template:
+    src: "server.hcl.j2"
+    dest: "{{ consul_configd_path }}/server.hcl"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    mode: 0640
+  notify:
+    - restart consul
+  tags:
+    - configure
 
+# 5. Configure consul systemd process
+- name: Install consul service systemd
+  template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
 
-# 3.
+- name: Start consul service
+  systemd:
+    name: consul
+    state: started
+    enabled: yes
+    daemon_reload: yes
