@@ -8,9 +8,10 @@
     - dnsmasq
 
 - name: Enable dnsmasq service
-  service:
+  systemd:
     name: dnsmasq
-    enabled: true
+    state: started
+    enabled: yes
   tags:
     - install
     - dnsmasq
@@ -23,14 +24,6 @@
     group: root
     mode: 0644
   notify: restart dnsmasq
-  tags:
-    - install
-    - dnsmasq
-
-- name: Enable dnsmasq service
-  service:
-    name: dnsmasq
-    enabled: true
   tags:
     - install
     - dnsmasq

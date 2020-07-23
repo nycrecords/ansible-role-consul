@@ -111,6 +111,8 @@
   template:
     src: consul.service.j2
     dest: /etc/systemd/system/consul.service
+  tags:
+    - configure
 
 - name: Start consul service
   systemd:
@@ -118,3 +120,5 @@
     state: started
     enabled: yes
     daemon_reload: yes
+  tags:
+    - configure
