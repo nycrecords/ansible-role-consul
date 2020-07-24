@@ -1,7 +1,7 @@
 ---
 - name: Install Consul Dependencies
   yum:
-    name: ['curl', 'unzip', 'jq']
+    name: ['curl', 'unzip']
     state: present
   tags:
     - install
