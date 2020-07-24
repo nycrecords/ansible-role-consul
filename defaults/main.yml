@@ -45,6 +45,7 @@ ansible_server_certs: []
 consul_dc_name: dc1
 
 ## Configure
+consul_acl_token:
 consul_bootstrap_expect: 3
 consul_client_address: "0.0.0.0"
 consul_retry_join_hosts: "{{ groups['consul_servers'] | join(',') }}"

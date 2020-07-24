@@ -16,6 +16,7 @@
 
     # Role: Consul
     ansible_host_os_type: "darwin"
+    consul_bootstrap_expect: 1
 
   roles:
     - role: nycrecords.rhsm
