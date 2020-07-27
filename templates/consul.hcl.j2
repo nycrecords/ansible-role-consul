@@ -1,4 +1,5 @@
 datacenter = "{{ consul_dc_name }}"
+bind_addr = "{{ consul_bind_address }}"
 data_dir = "{{ consul_config_path }}"
 encrypt = "{{ consul_gossip_encryption_key.stdout }}"
 ca_file = "{{ consul_configd_path }}/consul-agent-ca.pem"
