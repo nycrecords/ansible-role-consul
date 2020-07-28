@@ -50,4 +50,4 @@ consul_acl_token:
 consul_bootstrap: false
 consul_bind_address: "0.0.0.0"
 consul_client_address:
-consul_retry_join_hosts: "{{ groups['consul_servers'] | join(',') }}"
+consul_retry_join_hosts: []
