@@ -1,7 +1,7 @@
 datacenter = "{{ consul_dc_name }}"
 bind_addr = "{{ consul_bind_address }}"
 data_dir = "{{ consul_config_path }}"
-encrypt = "{{ consul_gossip_encryption_key.stdout }}"
+encrypt = "{{ consul_encrypt_key }}"
 ca_file = "{{ consul_configd_path }}/consul-agent-ca.pem"
 cert_file = "{{ consul_configd_path }}/{{ consul_dc_name }}-server-consul-0.pem"
 key_file = "{{ consul_configd_path }}/{{ consul_dc_name }}-server-consul-0-key.pem"
@@ -9,7 +9,7 @@ log_file = "{{ consul_log_path }}/{{ consul_log_file }}"
 verify_incoming = true
 verify_outgoing = true
 verify_server_hostname = true
-retry_join = ["{{ consul_retry_join_hosts }}"]
+retry_join = "{{ consul_retry_join_hosts }}"
 
 acl = {
   enabled = true

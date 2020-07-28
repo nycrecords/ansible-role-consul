@@ -17,6 +17,17 @@
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
+  when:
+    - not consul_encrypt_key
+  run_once: true
+  tags:
+    - configure
+
+- name: Set Consul ACL bootstrap token
+  set_fact:
+    consul_encrpyt_key: "{{ consul_gossip_encryption_key.stdout_lines }}"
+  when:
+    - not consul_encrypt_key
   run_once: true
   tags:
     - configure
