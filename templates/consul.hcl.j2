@@ -9,9 +9,9 @@ log_file = "{{ consul_log_path }}/{{ consul_log_file }}"
 verify_incoming = true
 verify_outgoing = true
 verify_server_hostname = true
-{% if consul_retry_join_hosts %}}
+{% if consul_retry_join_hosts %}
 retry_join = [{{ consul_retry_join_hosts }}]
-{% endif %}}
+{% endif %}
 
 acl = {
   enabled = true

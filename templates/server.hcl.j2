@@ -1,6 +1,6 @@
 server = true
 bootstrap = {{ consul_bootstrap }}
 ui = true
-{% if consul_client_address %}}
+{% if consul_client_address %}
 client_addr = "{{ consul_client_address }}"
-{% endif %}}
+{% endif %}
