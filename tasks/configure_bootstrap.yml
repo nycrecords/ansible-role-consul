@@ -1,0 +1,63 @@
+---
+- name: Generate Consul ACL bootstrap token
+  shell: "{{ consul_bin_path }}/consul acl bootstrap"
+  register: consul_acl_bootstrap
+  when:
+    - not consul_acl_token
+  tags:
+    - configure
+
+- name: Set Consul ACL bootstrap token
+  set_fact:
+    consul_acl_token: "{{ consul_acl_bootstrap.stdout_lines | search_for_key('SecretID') }}"
+  when:
+    - not consul_acl_token
+  tags:
+    - configure
+
+- name: Create consul server configuration
+  template:
+    src: "node-policy.hcl.j2"
+    dest: "/tmp/node-policy.hcl"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    mode: 0640
+  notify:
+    - restart consul
+  tags:
+    - configure
+
+- name: Generate Consul node ACL policy
+  shell: |
+    {{ consul_bin_path }}/consul acl policy create \
+    -token={{ consul_acl_token }} \
+    -name node-policy \
+    -rules @/tmp/node-policy.hcl
+  tags:
+    - configure
+
+- name: Create Consul node token
+  shell: |
+    {{ consul_bin_path }}/consul acl token create \
+    -token={{ consul_acl_token }} \
+    -description "node token" \
+    -policy-name node-policy
+  register: consul_node_token_create
+  tags:
+    - configure
+
+- name: Set Consul node token
+  set_fact:
+    consul_node_token: "{{ consul_node_token_create.stdout_lines | search_for_key('SecretID') }}"
+  tags:
+    - configure
+
+- name: Write values to file
+  template:
+    src: bootstrap-outputs.txt.j2
+    dest: files/bootstrap-outputs.txt
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
