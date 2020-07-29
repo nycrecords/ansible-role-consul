@@ -47,6 +47,7 @@ consul_dc_name: dc1
 ## Configure
 consul_encrypt_key:
 consul_acl_token:
+consul_node_token:
 consul_bootstrap: false
 consul_bind_address: "0.0.0.0"
 consul_client_address:
