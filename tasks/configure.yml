@@ -145,6 +145,5 @@
     {{ consul_bin_path }}/consul acl set-agent-token \
     -token={{ consul_acl_token }} \
     agent {{ consul_node_token }}
-  register: consul_node_token_create
   tags:
     - configure
