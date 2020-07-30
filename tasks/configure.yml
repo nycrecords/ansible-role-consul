@@ -145,7 +145,6 @@
     {{ consul_bin_path }}/consul acl set-agent-token \
     -token={{ consul_acl_token }} \
     agent {{ consul_node_token }}
-  environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_acl_token }}"
+  become_user: ec2-user
   tags:
     - configure
