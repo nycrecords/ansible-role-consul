@@ -140,16 +140,12 @@
   tags:
     - configure
 
-- name: Set Consul HTTP token environment variable
-  environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_acl_token }}"
-  tags:
-    - configure
-
 - name: Add Consul node token
   shell: |
     {{ consul_bin_path }}/consul acl set-agent-token \
     -token={{ consul_acl_token }} \
     agent {{ consul_node_token }}
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_acl_token }}"
   tags:
     - configure
