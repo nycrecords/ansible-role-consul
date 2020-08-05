@@ -29,6 +29,7 @@
     remote_src: yes
   tags:
     - install
+
 - name: Change ownership of Consul binary
   file:
     path: "{{ consul_bin_path }}/consul"
@@ -37,6 +38,7 @@
     mode: u=rwx,g=rx,o=rx
   tags:
     - install
+
 - name: Remove Consul downloads
   file:
     path: "{{ item }}"
@@ -46,6 +48,7 @@
     - /tmp/consul
   tags:
     - install
+
 - name: Install dnsmasq
   include_tasks: install_dnsmasq.yml
   tags:
