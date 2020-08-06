@@ -1,3 +1,7 @@
+{% if consul_encrypt_key %}
 Encrypt Key: "{{ consul_encrypt_key }}"
+{% else %}
+Encrypt Key: "{{ consul_gossip_encryption_key }}"
+{% endif %}
 ACL Bootstrap Token: "{{ consul_acl_token }}"
 ACL Node Token: "{{ consul_node_token }}"
