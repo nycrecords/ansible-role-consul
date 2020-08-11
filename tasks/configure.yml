@@ -23,9 +23,9 @@
   tags:
     - configure
 
-- name: Set Consul ACL bootstrap token
+- name: Set Consul Encryption Key
   set_fact:
-    consul_encrpyt_key: "{{ consul_gossip_encryption_key.stdout }}"
+    consul_encrypt_key: "{{ consul_gossip_encryption_key.stdout }}"
   when:
     - not consul_encrypt_key
   run_once: true
