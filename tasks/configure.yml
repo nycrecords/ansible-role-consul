@@ -134,6 +134,13 @@
   tags:
     - configure
 
+- name: Make sure Consul is running before proceeding.
+  wait_for:
+    host: "{{ consul_client_address }}"
+    port: 8500
+    delay: 3
+    timeout: 300
+
 - name: Configure Consul bootstrap server
   include_tasks: configure_bootstrap.yml
   when: consul_bootstrap | bool
@@ -145,6 +152,5 @@
     {{ consul_bin_path }}/consul acl set-agent-token \
     -token={{ consul_acl_token }} \
     agent {{ consul_node_token }}
-  become_user: ec2-user
   tags:
     - configure
