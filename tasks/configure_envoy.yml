@@ -1,0 +1,15 @@
+---
+- name: Copy service definition files
+  copy:
+    src: "files/envoy/{{ item }}"
+    dest: "/tmp/{{ item }}"
+  with_items: "{{ service_files }}"
+  tags:
+    - configure_envoy
+
+- name: Register services
+  shell:
+    cmd: "{{ consul_bin_path }}/consul services register /tmp/{{ item }}"
+  with_items: "{{ service_files }}"
+  tags:
+   - configure_envoy

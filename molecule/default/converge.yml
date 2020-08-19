@@ -3,6 +3,27 @@
   hosts: all
   become: true
 
+  tasks:
+  - name: Copy example service applications (1)
+    copy:
+      src: "files/envoy/counting-service_linux_amd64"
+      dest: "/home/vagrant/counting-service_linux_amd64"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: u=rwx,g=rx,o=rx
+    tags:
+      - configure_envoy
+
+  - name: Copy example service applications (2)
+    copy:
+      src: "files/envoy/dashboard-service_linux_amd64"
+      dest: "/home/vagrant/dashboard-service_linux_amd64"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: u=rwx,g=rx,o=rx
+    tags:
+      - configure_envoy
+
   vars:
     # Role: rhsm
     rhsm_username: "{{ lookup('env', 'RHSM_USERNAME') }}"
@@ -18,6 +39,9 @@
     ansible_host_os_type: "darwin"
     consul_bootstrap: true
     consul_client_address: "0.0.0.0"
+    service_files:
+      - "counting.hcl"
+      - "dashboard.hcl"
 
   roles:
     - role: nycrecords.rhsm

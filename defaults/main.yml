@@ -52,3 +52,7 @@ consul_bootstrap: false
 consul_bind_address: "0.0.0.0"
 consul_client_address:
 consul_retry_join_hosts: []
+
+## Envoy
+envoy_version: "1.14.2"
+service_files:
