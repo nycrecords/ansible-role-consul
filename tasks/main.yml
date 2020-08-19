@@ -8,3 +8,13 @@
   include_tasks: configure.yml
   tags:
     - configure
+
+- name: Install Envoy
+  include_tasks: install_envoy.yml
+  tags:
+   - install_envoy
+
+- name: Configure Envoy
+  include_tasks: configure_envoy.yml
+  tags:
+    - configure_envoy
