@@ -1,4 +1,4 @@
-server = true
+server = {{ consul_server | bool | to_json }}
 bootstrap = {{ consul_bootstrap | bool | to_json }}
 ui = true
 {% if consul_client_address %}

@@ -39,6 +39,7 @@
     ansible_host_os_type: "darwin"
     consul_bootstrap: true
     consul_client_address: "0.0.0.0"
+    consul_server: true
     service_files:
       - "counting.hcl"
       - "dashboard.hcl"
