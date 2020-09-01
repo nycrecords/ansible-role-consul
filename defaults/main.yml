@@ -7,7 +7,7 @@ consul_group: consul
 consul_config_path: "/etc/consul"
 consul_configd_path: "{{ consul_config_path }}/consul.d"
 consul_data_path: "/var/consul"
-consul_run_path: "/run/consul"
+consul_run_path: "/etc/consul"
 consul_install_path: "/opt/consul"
 consul_bin_path: "/usr/local/bin"
 
@@ -57,3 +57,6 @@ consul_server: false
 ## Envoy
 envoy_version: "1.14.2"
 service_files:
+
+## dnsmasq
+domain_name_servers: 

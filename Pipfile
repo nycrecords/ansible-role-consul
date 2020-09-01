@@ -7,9 +7,10 @@ verify_ssl = true
 python_version = "3.7"
 
 [packages]
-ansible = "==2.*,>=2.9.10"
-awscli = "==1.*,>=1.18.98"
+ansible = "*"
+awscli = "*"
 molecule = {version = "<=2.22", extras = ["ec2", "vagrant"]}
+testinfra = "*"
 
 [dev-packages]
 black = "==19.*,>=19.10.0.b0"
