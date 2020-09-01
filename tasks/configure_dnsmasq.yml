@@ -1,11 +1,37 @@
 ---
-- name: Create Dnsmasq configuration
-  template:
-    src: dnsmasq-10-consul.j2
+- name: Backup dnsmasq configuration
+  copy:
+    src: /etc/dnsmasq.conf
+    dest: /etc/dnsmasq.conf.orig
+    remote_src: yes
+  tags:
+    - configure_dnsmasq
+
+- name: Copy dnsmasq configuration to server
+  copy:
+    src: dnsmasq.conf
+    dest: /etc/dnsmasq.conf
+  tags:
+    - configure_dnsmasq
+
+- name: Copy Consul dnsmasq configuration
+  copy:
+    src: 10-consul
     dest: /etc/dnsmasq.d/10-consul
     owner: root
     group: root
     mode: 0644
   notify: restart dnsmasq
   when: ansible_os_family in ["Debian", "RedHat"]
-  tags: dnsmasq
+  tags:
+    - configure_dnsmasq
+
+- name: Set the dnsmasq DNS cache as the default DNS resolver
+  template:
+    src: dhclient.conf.j2
+    dest: /etc/dhcp/dhclient.conf
+  tags:
+    - configure_dnsmasq
+
+- name: Reboot to apply changes to DHCP and DNS Cache
+  reboot:

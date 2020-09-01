@@ -4,8 +4,7 @@
     name: dnsmasq
     state: present
   tags:
-    - install
-    - dnsmasq
+    - install_dnsmasq
 
 - name: Enable dnsmasq service
   systemd:
@@ -13,8 +12,7 @@
     state: started
     enabled: yes
   tags:
-    - install
-    - dnsmasq
+    - install_dnsmasq
 
 - name: Creat dnsmasq configuration directory
   file:
@@ -25,5 +23,4 @@
     mode: 0644
   notify: restart dnsmasq
   tags:
-    - install
-    - dnsmasq
+    - install_dnsmasq

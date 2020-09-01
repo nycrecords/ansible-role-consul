@@ -9,6 +9,16 @@
   tags:
     - configure
 
+- name: Install dnsmasq
+  include_tasks: install_dnsmasq.yml
+  tags:
+    - install_dnsmasq
+
+- name: Configure dnsmasq
+  include_tasks: configure_dnsmasq.yml
+  tags:
+    - configure_dnsmasq
+    
 - name: Install Envoy
   include_tasks: install_envoy.yml
   tags:

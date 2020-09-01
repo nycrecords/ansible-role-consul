@@ -48,9 +48,3 @@
     - /tmp/consul
   tags:
     - install
-
-- name: Install dnsmasq
-  include_tasks: install_dnsmasq.yml
-  tags:
-    - install
-    - dnsmasq
