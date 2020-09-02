@@ -43,7 +43,10 @@
     service_files:
       - "counting.hcl"
       - "dashboard.hcl"
-    domain_name_servers: "8.8.8.8"
+    domain_name_servers: 
+      - 8.8.8.8
+      - 4.4.4.4
+      - 1.1.1.1
 
   roles:
     - role: nycrecords.rhsm
