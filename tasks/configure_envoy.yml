@@ -22,6 +22,7 @@
   vars:
     service_name: "{{ item.key }}"
     service_id: "{{ item.value.service_id }}"
+    connect_options: "{{ item.value.connect_options }}"
   tags:
     - configure_envoy
 

@@ -8,3 +8,6 @@ __pycache__
 .vscode/
 molecule/resources/roles/*
 !molecule/resources/roles/.gitkeep
+molecule/default/files/bootstrap-outputs.txt
+molecule/default/files/consul-agent-ca-key.pem
+molecule/default/files/consul-agent-ca.pem

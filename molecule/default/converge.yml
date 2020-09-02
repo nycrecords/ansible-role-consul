@@ -47,6 +47,7 @@
       dashboard: 
         service_definition: "dashboard.hcl"
         service_id: "dashboard"
+        connect_options: "-admin-bind localhost:19001"
     domain_name_servers: 
       - 8.8.8.8
       - 4.4.4.4

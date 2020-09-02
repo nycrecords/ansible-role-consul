@@ -8,7 +8,7 @@ Restart=always
 RestartSec=15s
 User={{ consul_user }}
 Group={{ consul_group }}
-ExecStart=/usr/bin/consul connect envoy -sidecar-for {{ service_id }}
+ExecStart={{ consul_bin_path }}/consul connect envoy -sidecar-for {{ service_id }}{% if connect_options %} {{ connect_options }} {% endif %}
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGTERM
 [Install]
