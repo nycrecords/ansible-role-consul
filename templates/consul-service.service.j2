@@ -1,0 +1,15 @@
+
+[Unit]
+Description={{ service_name }} Sidecar
+Requires=consul.service
+After=consul.service
+[Service]
+Restart=always
+RestartSec=15s
+User={{ consul_user }}
+Group={{ consul_group }}
+ExecStart=/usr/bin/consul connect envoy -sidecar-for {{ service_id }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+[Install]
+WantedBy=multi-user.target

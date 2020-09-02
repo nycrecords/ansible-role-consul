@@ -1,15 +1,36 @@
 ---
 - name: Copy service definition files
   copy:
-    src: "files/envoy/{{ item }}"
-    dest: "/tmp/{{ item }}"
-  with_items: "{{ service_files }}"
+    src: "files/envoy/{{ ansible_hostname }}/{{ item.value.service_definition }}"
+    dest: "/tmp/{{ item.value.service_definition }}"
+  with_dict: "{{ service_files }}"
   tags:
     - configure_envoy
 
 - name: Register services
   shell:
-    cmd: "{{ consul_bin_path }}/consul services register /tmp/{{ item }}"
-  with_items: "{{ service_files }}"
+    cmd: "{{ consul_bin_path }}/consul services register /tmp/{{ item.value.service_definition }}"
+  with_dict: "{{ service_files }}"
   tags:
    - configure_envoy
+
+- name: Create Systemd Service Files
+  template:
+    src: consul-service.service.j2
+    dest: "/etc/systemd/system/{{ item.key }}-consul.service"
+  with_dict: "{{ service_files }}"
+  vars:
+    service_name: "{{ item.key }}"
+    service_id: "{{ item.value.service_id }}"
+  tags:
+    - configure_envoy
+
+- name: Startup Systemd Services for Consul Services
+  systemd:
+    name: "{{ item.key }}-consul.service"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  with_dict: "{{ service_files }}"
+  tags:
+    - configure_envoy

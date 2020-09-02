@@ -6,7 +6,7 @@
   tasks:
   - name: Copy example service applications (1)
     copy:
-      src: "files/envoy/counting-service_linux_amd64"
+      src: "files/envoy/{{ ansible_hostname }}/counting-service_linux_amd64"
       dest: "/home/vagrant/counting-service_linux_amd64"
       owner: "vagrant"
       group: "vagrant"
@@ -16,7 +16,7 @@
 
   - name: Copy example service applications (2)
     copy:
-      src: "files/envoy/dashboard-service_linux_amd64"
+      src: "files/envoy/{{ ansible_hostname }}/dashboard-service_linux_amd64"
       dest: "/home/vagrant/dashboard-service_linux_amd64"
       owner: "vagrant"
       group: "vagrant"
@@ -41,8 +41,12 @@
     consul_client_address: "0.0.0.0"
     consul_server: true
     service_files:
-      - "counting.hcl"
-      - "dashboard.hcl"
+      counting: 
+        service_definition: "counting.hcl"
+        service_id: "counting-1"
+      dashboard: 
+        service_definition: "dashboard.hcl"
+        service_id: "dashboard"
     domain_name_servers: 
       - 8.8.8.8
       - 4.4.4.4
