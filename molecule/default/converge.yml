@@ -44,6 +44,7 @@
       counting: 
         service_definition: "counting.hcl"
         service_id: "counting-1"
+        connect_options:
       dashboard: 
         service_definition: "dashboard.hcl"
         service_id: "dashboard"
