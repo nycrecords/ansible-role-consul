@@ -1,3 +1,4 @@
-{% for nameserver in domain_name_servers %}
+{% set nameservers = domain_name_servers.split(',') %}
+{% for nameserver in nameservers %}
 nameserver {{ nameserver }}
 {% endfor %}
