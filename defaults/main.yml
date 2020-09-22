@@ -40,8 +40,9 @@ consul_log_file: "consul.log"
 consul_log_rotate_max_files: 7
 
 ## TLS
-ansible_ca_cert:
-ansible_ca_key:
+consul_ca_cert: "consul-agent-ca.pem"
+consul_ca_key: "consul-agent-ca-key.pem"
+consul_cert_base_path: "files/consul"
 ansible_server_certs: []
 consul_dc_name: dc1
 
@@ -56,8 +57,10 @@ consul_retry_join_hosts: []
 consul_server: false
 
 ## Envoy
-envoy_version: "1.14.2"
+envoy_repo_url: "https://getenvoy.io/linux/rhel/tetrate-getenvoy.repo"
+envoy_package_name: "getenvoy-envoy-1.14.2.p0.g1a0363c-1p66.gfbeeb15.x86_64"
+envoy_files_base_path: "files/envoy"
 service_files:
 
 ## dnsmasq
-domain_name_servers: 
+domain_name_servers:

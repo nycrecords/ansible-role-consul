@@ -1,6 +1,7 @@
 datacenter = "{{ consul_dc_name }}"
 bind_addr = "{{ consul_bind_address }}"
 data_dir = "{{ consul_config_path }}"
+node_name = "{{ inventory_hostname_short }}"
 encrypt = "{{ consul_encrypt_key }}"
 ca_file = "{{ consul_configd_path }}/consul-agent-ca.pem"
 cert_file = "{{ consul_configd_path }}/{{ consul_dc_name }}-server-consul-0.pem"

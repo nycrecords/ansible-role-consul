@@ -6,7 +6,6 @@
     - install
     - configure
   when:
-    - not ansible_ca_cert | bool
     - not ansible_server_certs | bool
 
 # 1. Setup Gossip Encryption
@@ -32,11 +31,25 @@
   tags:
     - configure
 
+# Create TLS directories
+- name: Create directories for consul TLS
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ consul_cert_base_path }}/ca"
+    - "{{ consul_cert_base_path }}/{{ inventory_hostname_short }}"
+  vars:
+    ansible_become: false
+  delegate_to: 127.0.0.1
+  tags:
+    - configure
+
 # 2. Setup ca / Use Existing ca
 - name: Generate consul ca
   shell:
     cmd: "{{ consul_temp_build_dir.path }}/consul tls ca create"
-    chdir: "files"
+    chdir: "{{ consul_cert_base_path }}/ca"
   register: consul_tls_ca_output
   ignore_errors: True
   vars:
@@ -46,32 +59,10 @@
   tags:
     - configure
 
-- name: Set name of consul ca key and cert
-  set_fact:
-    ansible_ca_cert: "files/consul-agent-ca.pem"
-    ansible_ca_key: "files/consul-agent-ca-key.pem"
-  vars:
-    ansible_become: false
-  delegate_to: 127.0.0.1
-  run_once: true
-  tags:
-    - configure
-
-# Create Agent Certs
-- name: Create directory for consul Agent
-  file:
-    path: "files/{{ ansible_hostname }}"
-    state: directory
-  vars:
-    ansible_become: false
-  delegate_to: 127.0.0.1
-  tags:
-    - configure
-
 - name: Generate consul Agent Certs
   shell:
-    cmd: "{{ consul_temp_build_dir.path }}/consul tls cert create -server -dc {{ consul_dc_name }} -ca ../../{{ ansible_ca_cert }} -key ../../{{ ansible_ca_key }}"
-    chdir: "files/{{ ansible_hostname }}"
+    cmd: "{{ consul_temp_build_dir.path }}/consul tls cert create -server -dc {{ consul_dc_name }} -ca ../ca/{{ consul_ca_cert }} -key ../ca/{{ consul_ca_key }}"
+    chdir: "{{ consul_cert_base_path }}/{{ inventory_hostname_short }}"
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
@@ -86,8 +77,8 @@
     group: "{{ consul_group }}"
     mode: 0400
   with_items:
-  - "files/{{ ansible_hostname}}/"
-  - "consul-agent-ca.pem"
+  - "{{ consul_cert_base_path }}/ca/"
+  - "{{ consul_cert_base_path }}/{{ inventory_hostname_short }}/"
   tags:
     - configure
 

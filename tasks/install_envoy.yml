@@ -1,29 +1,13 @@
 ---
-- name: Download GetEnvoy
+- name: Add Envoy repository
   shell:
-    cmd: "curl -L https://getenvoy.io/cli | bash -s -- -b /tmp"
+    cmd: "yum-config-manager --add-repo {{ envoy_repo_url }}"
   tags:
-   - install_envoy
+    - install_envoy
 
-- name: Run GetEnvoy to Install Envoy
-  shell:
-    cmd: "/tmp/getenvoy run standard:{{ envoy_version }} -- --version"
-  tags:
-   - install_envoy
-
-- name: Copy Envoy binary to bin directory
-  copy:
-    src: "~/.getenvoy/builds/standard/{{ envoy_version }}/linux_glibc/bin/envoy"
-    dest: "/usr/local/bin/envoy"
-    remote_src: yes
-  tags:
-   - install_envoy
-
-- name: Change ownership of Envoy binary
-  file:
-    path: "{{ consul_bin_path }}/envoy"
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
-    mode: u=rwx,g=rx,o=rx
+- name: Install Envoy
+  yum:
+    name: "{{ envoy_package_name }}"
+    state: present
   tags:
     - install_envoy

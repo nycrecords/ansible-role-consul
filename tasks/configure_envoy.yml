@@ -1,7 +1,7 @@
 ---
 - name: Copy service definition files
-  copy:
-    src: "files/envoy/{{ ansible_hostname }}/{{ item.value.service_definition }}"
+  template:
+    src: "{{ envoy_files_base_path}}/{{ inventory_hostname_short }}/{{ item.value.service_definition }}.j2"
     dest: "/tmp/{{ item.value.service_definition }}"
   with_dict: "{{ service_files }}"
   tags:
@@ -12,7 +12,7 @@
     cmd: "{{ consul_bin_path }}/consul services register /tmp/{{ item.value.service_definition }}"
   with_dict: "{{ service_files }}"
   tags:
-   - configure_envoy
+    - configure_envoy
 
 - name: Create Systemd Service Files
   template:
