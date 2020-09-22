@@ -37,6 +37,7 @@ syslog_user: root
 syslog_group: root
 consul_log_path: "/var/log/consul"
 consul_log_file: "consul.log"
+consul_log_rotate_max_files: 7
 
 ## TLS
 ansible_ca_cert:
