@@ -9,7 +9,7 @@
 
 - name: Register services
   shell:
-    cmd: "{{ consul_bin_path }}/consul services register /tmp/{{ item.value.service_definition }}"
+    cmd: "{{ consul_bin_path }}/consul services register -token={{ consul_node_token }} /tmp/{{ item.value.service_definition }}"
   with_dict: "{{ service_files }}"
   tags:
     - configure_envoy
