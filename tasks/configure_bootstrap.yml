@@ -59,7 +59,7 @@
 - name: Write values to file
   template:
     src: bootstrap-outputs.txt.j2
-    dest: files/bootstrap-outputs.txt
+    dest: "{{ consul_cert_base_path }}/bootstrap-outputs.txt"
   vars:
     ansible_become: false
   delegate_to: 127.0.0.1
