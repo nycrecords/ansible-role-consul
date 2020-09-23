@@ -1,6 +1,6 @@
 server = {{ consul_server | bool | to_json }}
 bootstrap = {{ consul_bootstrap | bool | to_json }}
-ui = true
+ui = {{ consul_server | bool | to_json }}
 {% if consul_client_address %}
 client_addr = "{{ consul_client_address }}"
 {% endif %}
