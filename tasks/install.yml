@@ -20,7 +20,10 @@
     dest: /tmp
     remote_src: yes
   tags:
-    - install
+    - install  
+  environment:
+    http_proxy: "{{ http_proxy_protocol}}://{{ http_proxy_username}}:{{ http_proxy_password }}@{{ http_proxy_hostname }}:{{ http_proxy_port }}"
+    https_proxy: "{{ http_proxy_protocol}}://{{ http_proxy_username}}:{{ http_proxy_password }}@{{ http_proxy_hostname }}:{{ http_proxy_port }}"
 
 - name: Copy Consul binary to bin directory
   copy:
