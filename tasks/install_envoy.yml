@@ -11,3 +11,9 @@
     state: present
   tags:
     - install_envoy
+
+- name: Lock Envoy version
+  shell:
+    cmd: "yum versionlock getenvoy-envoy-*"
+  tags:
+    - install_envoy
